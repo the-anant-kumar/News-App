@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity(), NewItemClicked {
         recyclerView.adapter = mAdapter
     }
     private fun fetchData(){
-        val url = "https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=307219f4f3944c26ab19ec8ee17c37d7"
+        val url = "https://newsapi.org/v2/top-headlines?country=in&category=business&apiKey=307219f4f3944c26ab19ec8ee17c37d7"
         val jsonObjectRequest = object : JsonObjectRequest(Request.Method.GET, url, null,
             {
                 val newsJsonArray = it.getJSONArray("articles")
@@ -38,7 +38,9 @@ class MainActivity : AppCompatActivity(), NewItemClicked {
                         newsJsonObject.getString("title"),
                         newsJsonObject.getString("author"),
                         newsJsonObject.getString("url"),
-                        newsJsonObject.getString("urlToImage")
+                        newsJsonObject.getString("content"),
+                        newsJsonObject.getString("urlToImage"),
+                        newsJsonObject.getJSONObject("source")
                     )
                     newsArray.add(news)
                 }
@@ -55,7 +57,7 @@ class MainActivity : AppCompatActivity(), NewItemClicked {
                 return params
             }
         }
-        MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest)
+            MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest)
     }
 
     override fun onItemClicked(item: News) {

@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.item_news.view.*
 
 class NewsListAdapter(private val listener: NewItemClicked) : RecyclerView.Adapter<NewsViewHolder> (){
 
@@ -24,6 +25,9 @@ class NewsListAdapter(private val listener: NewItemClicked) : RecyclerView.Adapt
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val currentItem = items[position]
         holder.titleView.text = currentItem.title
+        holder.content.text = currentItem.content
+        holder.source.text = currentItem.source["name"].toString()
+        Glide.with(holder.itemView.context).load(currentItem.imageUrl).into(holder.image)
     }
 
     override fun getItemCount(): Int {
@@ -39,7 +43,10 @@ class NewsListAdapter(private val listener: NewItemClicked) : RecyclerView.Adapt
 }
 
 class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val titleView: TextView = itemView.findViewById(R.id.title)
+    val titleView: TextView = itemView.title
+    val image: ImageView = itemView.image
+    val source: TextView = itemView.source
+    val content: TextView = itemView.content
 }
 
 interface NewItemClicked{
